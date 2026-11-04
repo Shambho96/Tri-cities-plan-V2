@@ -1,78 +1,92 @@
 import React from 'react';
 
-interface MpoLogoProps {
-  variant?: 'light' | 'dark' | 'card';
-  size?: 'sm' | 'md' | 'lg';
+export interface MpoLogoProps {
+  variant?: 'light' | 'dark' | 'card' | 'badge' | 'plain';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
+  style?: React.CSSProperties;
+  alt?: string;
+  onClick?: () => void;
 }
 
-export const MpoLogo: React.FC<MpoLogoProps> = ({ variant = 'light', size = 'md' }) => {
+const SIZE_MAP: Record<'xs' | 'sm' | 'md' | 'lg' | 'xl', { width: number; height: number }> = {
+  xs: { width: 44, height: 26 },
+  sm: { width: 68, height: 40 },
+  md: { width: 102, height: 60 },
+  lg: { width: 144, height: 85 },
+  xl: { width: 200, height: 118 },
+};
+
+export const MpoLogo: React.FC<MpoLogoProps> = ({
+  variant = 'light',
+  size = 'md',
+  className = '',
+  style,
+  alt = 'Tri-Cities Area MPO',
+  onClick,
+}) => {
+  const dims = SIZE_MAP[size] || SIZE_MAP.md;
   const isCard = variant === 'card';
   const isDark = variant === 'dark';
+  const isBadge = variant === 'badge';
 
-  const width = size === 'sm' ? 88 : size === 'lg' ? 210 : 150;
-  const height = width * 0.4;
+  const containerStyles: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.2s ease',
+    ...(isCard
+      ? {
+          background: '#ffffff',
+          padding: '6px 12px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 14px rgba(0, 0, 0, 0.12)',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
+        }
+      : isDark
+      ? {
+          background: 'rgba(255, 255, 255, 0.96)',
+          padding: '3px 8px',
+          borderRadius: '7px',
+          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
+          backdropFilter: 'blur(4px)',
+        }
+      : isBadge
+      ? {
+          background: 'rgba(255, 255, 255, 0.9)',
+          padding: '2px 6px',
+          borderRadius: '6px',
+          border: '1px solid rgba(226, 232, 240, 0.8)',
+        }
+      : {}),
+    ...style,
+  };
 
   return (
-    <div className={`mpo-logo-wrap ${variant}`}>
-      <svg 
-        width={width} 
-        height={height} 
-        viewBox="0 0 200 84" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-        className="mpo-svg"
-      >
-        {/* Subtle background container if card variant */}
-        {isCard && (
-          <rect width="200" height="84" rx="10" fill="#ffffff" fillOpacity="0.95" />
-        )}
-
-        {/* Top curved road arc */}
-        <path
-          d="M 18,22 C 60,6 140,8 182,24"
-          stroke="var(--primary)"
-          strokeWidth="3.2"
-          strokeLinecap="round"
-          opacity="0.85"
-        />
-        {/* Secondary subtle transit swoosh */}
-        <path
-          d="M 28,28 C 70,16 135,17 172,30"
-          stroke="var(--accent-foreground)"
-          strokeWidth="1.8"
-          strokeDasharray="4 2"
-          opacity="0.9"
-        />
-
-        {/* Text: "Tri-Cities Area" */}
-        <text
-          x="100"
-          y="32"
-          textAnchor="middle"
-          fill={isDark ? 'var(--accent-foreground)' : 'var(--primary)'}
-          fontFamily="'Plus Jakarta Sans', serif"
-          fontSize="15"
-          fontWeight="600"
-          fontStyle="italic"
-          letterSpacing="0.4"
-        >
-          Tri-Cities Area
-        </text>
-
-        {/* Bold "MPO" */}
-        <text
-          x="100"
-          y="68"
-          textAnchor="middle"
-          fill={isDark ? '#ffffff' : 'var(--brand-navy-900)'}
-          fontFamily="'Outfit', sans-serif"
-          fontSize="38"
-          fontWeight="900"
-          letterSpacing="2"
-        >
-          MPO
-        </text>
-      </svg>
+    <div
+      className={`mpo-logo-wrap mpo-variant-${variant} mpo-size-${size} ${className}`}
+      style={containerStyles}
+      onClick={onClick}
+    >
+      <img
+        src="/mpo-logo.png"
+        srcSet="/mpo-logo.png 1x, /mpo-logo-hd.png 2x"
+        alt={alt}
+        width={dims.width}
+        height={dims.height}
+        className="mpo-logo-img"
+        style={{
+          width: `${dims.width}px`,
+          height: 'auto',
+          aspectRatio: '108 / 64',
+          objectFit: 'contain',
+          display: 'block',
+        }}
+        loading="eager"
+        decoding="async"
+      />
     </div>
   );
 };
+
+export default MpoLogo;

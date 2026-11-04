@@ -23,6 +23,21 @@ export interface PlanGoal {
   details: string;
 }
 
+export interface DocumentFigure {
+  id?: string;
+  src: string;
+  title: string;
+  caption?: string;
+  source?: string;
+}
+
+export interface DocumentTable {
+  title: string;
+  headers: string[];
+  rows: (string | number)[][];
+  source?: string;
+}
+
 export interface SectionContent {
   id: string;
   title: string;
@@ -33,6 +48,8 @@ export interface SectionContent {
     title: string;
     content: string;
   };
+  figure?: DocumentFigure;
+  figures?: DocumentFigure[];
   hasInteractiveFigure?: 
     | 'figure1_map' 
     | 'demographics_chart' 
@@ -41,12 +58,8 @@ export interface SectionContent {
     | 'density_maps'
     | 'shift_share_chart'
     | 'ej_composite_map';
-  tableData?: {
-    title: string;
-    headers: string[];
-    rows: (string | number)[][];
-    source?: string;
-  };
+  tableData?: DocumentTable;
+  tables?: DocumentTable[];
 }
 
 export interface ChapterData {

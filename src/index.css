@@ -5351,6 +5351,113 @@ html.dark-theme .search-sec-title {
   }
 }
 
+/* ==========================================================================
+   Document Figure Cards (PLAN2050 Official Figures)
+   ========================================================================== */
+.section-document-figure-card {
+  margin: 2.25rem 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark .section-document-figure-card,
+html.dark-theme .section-document-figure-card {
+  background: #0f172a;
+  border-color: rgba(56, 189, 248, 0.2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.section-document-figure-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.figure-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--muted);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.dark .figure-card-header,
+html.dark-theme .figure-card-header {
+  background: #131e33;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.figure-card-tag {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--foreground);
+}
+
+.dark .figure-card-tag,
+html.dark-theme .figure-card-tag {
+  color: #38bdf8;
+}
+
+.figure-card-source {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  background: var(--background);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+}
+
+.figure-img-container {
+  position: relative;
+  width: 100%;
+  background: #0b111e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.figure-rendered-img {
+  width: 100%;
+  max-height: 680px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.figure-card-caption {
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  background: var(--card);
+  border-top: 1px solid var(--border);
+}
+
+.dark .figure-card-caption,
+html.dark-theme .figure-card-caption {
+  background: #0b1322;
+  color: #94a3b8;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.figure-card-caption strong {
+  color: var(--foreground);
+}
+
+.dark .figure-card-caption strong,
+html.dark-theme .figure-card-caption strong {
+  color: #e2e8f0;
+}
+
+
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { TabId, PlanGoal } from '../types';
 import { PLAN_OVERVIEW, PLAN_GOALS, CHAPTERS_DATA } from '../data/planData';
+import { MpoLogo } from './MpoLogo';
 import { 
   ArrowRight, 
   ShieldAlert, 
@@ -94,7 +95,8 @@ export const ReportView: React.FC<ReportViewProps> = ({ onNavigateTab, onSelectG
         <div className="creative-hero-ambient" />
         
         <div className="creative-hero-content">
-          <div className="creative-eyebrow-pill">
+          <div className="creative-eyebrow-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <MpoLogo variant="card" size="xs" style={{ padding: '2px 5px', borderRadius: '4px', boxShadow: 'none' }} />
             <span className="creative-radar-dot" />
             <span>TRI-CITIES AREA MPO • REGIONAL HORIZON 2050</span>
           </div>
@@ -132,6 +134,22 @@ export const ReportView: React.FC<ReportViewProps> = ({ onNavigateTab, onSelectG
               <span>Member Localities</span>
             </button>
           </div>
+
+          {/* Official Document Banner */}
+          <div className="creative-hero-doc-banner" style={{
+            marginTop: '2.5rem',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 14px 40px rgba(0, 0, 0, 0.5)',
+            border: '1px solid rgba(56, 189, 248, 0.28)',
+            background: '#0b1626'
+          }}>
+            <img 
+              src="/assets/report-card-clean.jpg" 
+              alt="The Tri-Cities Area MPO PLAN2050 - Official Plan Document" 
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
         </div>
       </section>
 
@@ -168,25 +186,26 @@ export const ReportView: React.FC<ReportViewProps> = ({ onNavigateTab, onSelectG
 
       {/* ── 3. Creative Asymmetric Showcase ─────────────────────────────── */}
       <section className="creative-showcase-split">
-        {/* Left: Media Card with Twilight Bridge */}
-        <div className="creative-showcase-media">
+        {/* Left: Media Card with Official PLAN2050 Report Cover */}
+        <div className="creative-showcase-media" style={{ background: '#0b1626' }}>
           <img 
-            src="/assets/bridge.jpg" 
-            alt="Tri-Cities Regional Bridge Corridor" 
+            src="/assets/plan2050-report-cover-2x.png" 
+            alt="Tri-Cities Area MPO (TCAMPO) PLAN2050 Official Report Document Cover" 
             className="creative-showcase-img"
+            style={{ objectFit: 'contain', background: '#081220' }}
           />
           <div className="creative-media-overlay">
             <div className="creative-floating-badge">
               <Sparkles size={14} />
-              <span>Key River Crossings & Interstate Hub</span>
+              <span>Official Adopted Plan Document</span>
             </div>
 
             <div className="creative-media-footer-info">
               <h3 className="creative-media-footer-title">
-                Appomattox & James River Multimodal Gateway
+                Tri-Cities Area MPO PLAN2050
               </h3>
               <p className="creative-media-footer-desc">
-                Connecting south-central Virginia's manufacturing clusters, deepwater ports, and military defense centers directly to Greater Richmond and Hampton Roads.
+                Long-range multimodal transportation plan directing regional connectivity, transit equity, and infrastructure investments across south-central Virginia.
               </p>
             </div>
           </div>

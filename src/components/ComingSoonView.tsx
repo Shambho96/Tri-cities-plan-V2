@@ -93,6 +93,22 @@ export const ComingSoonView: React.FC<ComingSoonViewProps> = ({ tabId, onNavigat
             The Tri-Cities MPO PLAN2050 <strong>{meta.title}</strong> content is currently under development and will be published upon final adoption. Please check back soon.
           </p>
 
+          {/* Official Document Reference Preview */}
+          <div className="coming-soon-doc-preview" style={{
+            margin: '1.25rem 0 1.75rem',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-md)',
+            maxWidth: '560px'
+          }}>
+            <img 
+              src="/assets/report-card-clean.jpg" 
+              alt="The Tri-Cities Area MPO PLAN2050 Official Report" 
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
+
           <div className="coming-soon-actions">
             <button 
               className="cs-nav-btn"

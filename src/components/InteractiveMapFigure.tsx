@@ -3,6 +3,7 @@ import { Info, Compass } from 'lucide-react';
 import { PLAN_OVERVIEW } from '../data/planData';
 
 export const InteractiveMapFigure: React.FC = () => {
+  const [viewMode, setViewMode] = useState<'official' | 'interactive'>('official');
   const [selectedJurisdiction, setSelectedJurisdiction] = useState<string>(PLAN_OVERVIEW.jurisdictions[0].name);
   const [activeLayer, setActiveLayer] = useState<'all' | 'interstates' | 'waterways'>('all');
 
@@ -14,33 +15,56 @@ export const InteractiveMapFigure: React.FC = () => {
         <div className="figure-title-group">
           <div className="figure-badge">
             <Compass size={14} className="spin-slow" />
-            FIGURE 1: INTERACTIVE REGIONAL ATLAS
+            FIGURE 1: REGIONAL MPO BOUNDARIES
           </div>
-          <h4>TCAMPO Planning Area & Member Jurisdictions</h4>
-          <p className="figure-subtext">Click any jurisdiction or corridor to inspect demographic and transit metrics</p>
+          <h4>Greater Richmond Region and Metropolitan Planning Organization Boundaries</h4>
+          <p className="figure-subtext">TCAMPO in relation to the Richmond MSA, RRTPO, and surrounding jurisdictions</p>
         </div>
 
-        <div className="figure-layer-pills">
+        <div className="figure-layer-pills" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button 
-            className={`layer-pill ${activeLayer === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveLayer('all')}
+            className={`layer-pill ${viewMode === 'official' ? 'active' : ''}`}
+            onClick={() => setViewMode('official')}
           >
-            All Systems
+            Official Figure 1 Map
           </button>
           <button 
-            className={`layer-pill ${activeLayer === 'interstates' ? 'active' : ''}`}
-            onClick={() => setActiveLayer('interstates')}
+            className={`layer-pill ${viewMode === 'interactive' ? 'active' : ''}`}
+            onClick={() => setViewMode('interactive')}
           >
-            Corridors (I-95/85/295)
+            Interactive Localities Map
           </button>
-          <button 
-            className={`layer-pill ${activeLayer === 'waterways' ? 'active' : ''}`}
-            onClick={() => setActiveLayer('waterways')}
-          >
-            Rivers & Confluence
-          </button>
+          {viewMode === 'interactive' && (
+            <div style={{ display: 'flex', gap: '4px', marginLeft: 'auto' }}>
+              {(['all', 'interstates', 'waterways'] as const).map(l => (
+                <button
+                  key={l}
+                  className={`layer-pill ${activeLayer === l ? 'active' : ''}`}
+                  onClick={() => setActiveLayer(l)}
+                  style={{ textTransform: 'capitalize', fontSize: '0.75rem' }}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
+      {viewMode === 'official' ? (
+        <div className="section-document-figure-card animate-fade-in" style={{ margin: '1rem 0', boxShadow: 'none' }}>
+          <div className="figure-img-container">
+            <img 
+              src="/assets/figures/fig01_mpo_boundaries.jpg" 
+              alt="Figure 1: Greater Richmond Region and Metropolitan Planning Organization Boundaries" 
+              className="figure-rendered-img"
+            />
+          </div>
+          <div className="figure-card-caption">
+            <strong>Figure 1:</strong> Greater Richmond Region and Metropolitan Planning Organization Boundaries, depicting TCAMPO (blue), Richmond Transportation Planning Organization (RRTPO, yellow), and the Richmond MSA border (purple). Source: U.S. Census Bureau, Esri, TomTom, Garmin, USGS.
+          </div>
+        </div>
+      ) : (
 
       <div className="figure-grid">
         {/* SVG Interactive Map */}
@@ -48,16 +72,16 @@ export const InteractiveMapFigure: React.FC = () => {
           <svg viewBox="0 0 700 450" className="regional-svg-map">
             <defs>
               <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="var(--accent-foreground)" stopOpacity="0.45" />
-                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.65" />
+                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#0369a1" stopOpacity="0.6" />
               </linearGradient>
               <linearGradient id="areaGradActive" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="var(--accent-foreground)" stopOpacity="0.6" />
+                <stop offset="0%" stopColor="#2563eb" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0.55" />
               </linearGradient>
               <linearGradient id="areaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="var(--card)" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="var(--secondary)" stopOpacity="0.9" />
+                <stop offset="0%" stopColor="#0f172a" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#1e293b" stopOpacity="0.8" />
               </linearGradient>
               <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="3" result="glow" />
@@ -156,43 +180,43 @@ export const InteractiveMapFigure: React.FC = () => {
                 <path
                   d="M 305,0 L 305,450"
                   fill="none"
-                  stroke="var(--primary)"
+                  stroke="#ef4444"
                   strokeWidth="5"
                   strokeDasharray="8 4"
                   className="corridor-pulse"
                 />
-                <rect x="290" y="15" width="30" height="18" rx="4" fill="var(--primary)" />
-                <text x="305" y="28" fill="var(--primary-foreground)" fontSize="10" fontWeight="bold" textAnchor="middle">I-95</text>
+                <rect x="290" y="15" width="30" height="18" rx="4" fill="#ef4444" />
+                <text x="305" y="28" fill="#fff" fontSize="10" fontWeight="bold" textAnchor="middle">I-95</text>
 
                 {/* I-85 Corridor (Southwest split from Petersburg) */}
                 <path
                   d="M 280,270 L 40,420"
                   fill="none"
-                  stroke="var(--accent-foreground)"
+                  stroke="#3b82f6"
                   strokeWidth="4"
                   strokeDasharray="6 3"
                 />
-                <rect x="120" y="360" width="30" height="18" rx="4" fill="var(--accent-foreground)" />
-                <text x="135" y="373" fill="var(--primary-foreground)" fontSize="10" fontWeight="bold" textAnchor="middle">I-85</text>
+                <rect x="120" y="360" width="30" height="18" rx="4" fill="#3b82f6" />
+                <text x="135" y="373" fill="#fff" fontSize="10" fontWeight="bold" textAnchor="middle">I-85</text>
 
                 {/* I-295 Bypass Corridor */}
                 <path
                   d="M 400,0 Q 420,120 420,220 T 310,380"
                   fill="none"
-                  stroke="color-mix(in oklch, var(--primary) 70%, white)"
+                  stroke="#10b981"
                   strokeWidth="4"
                   strokeDasharray="6 3"
                 />
-                <rect x="425" y="70" width="36" height="18" rx="4" fill="color-mix(in oklch, var(--primary) 70%, white)" />
-                <text x="443" y="83" fill="var(--foreground)" fontSize="9" fontWeight="bold" textAnchor="middle">I-295</text>
+                <rect x="425" y="70" width="36" height="18" rx="4" fill="#10b981" />
+                <text x="443" y="83" fill="#fff" fontSize="9" fontWeight="bold" textAnchor="middle">I-295</text>
               </g>
             )}
 
             {/* North Arrow and Scale */}
             <g transform="translate(630, 40)">
-              <circle cx="20" cy="20" r="18" fill="color-mix(in oklch, var(--card) 85%, transparent)" stroke="var(--primary)" strokeWidth="1.5" />
-              <polygon points="20,8 25,24 20,20 15,24" fill="var(--primary)" />
-              <text x="20" y="34" fill="var(--foreground)" fontSize="10" fontWeight="bold" textAnchor="middle">N</text>
+              <circle cx="20" cy="20" r="18" fill="rgba(15,23,42,0.7)" stroke="#38bdf8" strokeWidth="1.5" />
+              <polygon points="20,8 25,24 20,20 15,24" fill="#38bdf8" />
+              <text x="20" y="34" fill="#e2e8f0" fontSize="10" fontWeight="bold" textAnchor="middle">N</text>
             </g>
           </svg>
         </div>
@@ -238,6 +262,7 @@ export const InteractiveMapFigure: React.FC = () => {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };

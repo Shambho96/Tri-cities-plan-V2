@@ -183,6 +183,53 @@ export const ChapterLayout: React.FC<ChapterLayoutProps> = ({
                 ))}
               </div>
 
+              {/* Official Report Document Figure for Goals & Strategic Vision */}
+              {currentSection.id === 'goals-objectives' && (
+                <div className="report-figure-callout-card" style={{
+                  margin: '2rem 0',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  background: '#0b1626',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                }}>
+                  <div style={{ padding: '0.8rem 1.2rem', background: 'rgba(15, 23, 42, 0.85)', borderBottom: '1px solid rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Official Document Figure 1.2
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Adopted PLAN2050 Strategic Performance Framework</span>
+                  </div>
+                  <img 
+                    src="/assets/plan2050-report-cover-2x.png" 
+                    alt="Official Tri-Cities Area MPO PLAN2050 Goals and Report Cover"
+                    style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }}
+                  />
+                  <div style={{ padding: '0.9rem 1.2rem', background: 'rgba(15, 23, 42, 0.6)', fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.5' }}>
+                    <strong>Figure 1.2:</strong> Official Tri-Cities Area MPO (TCAMPO) PLAN2050 Long-Range Multimodal Transportation Plan framework affirming the 5 core regional performance goals.
+                  </div>
+                </div>
+              )}
+
+              {currentSection.id === 'purpose-of-plan' && (
+                <div className="report-figure-callout-card" style={{
+                  margin: '2rem 0',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  background: '#0b1626',
+                  border: '1px solid rgba(56, 189, 248, 0.25)',
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)'
+                }}>
+                  <img 
+                    src="/assets/report-card-clean.jpg" 
+                    alt="The Tri-Cities Area MPO PLAN2050 Official Plan Document Banner"
+                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                  />
+                  <div style={{ padding: '0.75rem 1.2rem', background: 'rgba(15, 23, 42, 0.6)', fontSize: '0.82rem', color: '#94a3b8' }}>
+                    <strong>Official LRTP Document:</strong> The Tri-Cities Area MPO PLAN2050 Long-Range Multimodal Transportation Plan.
+                  </div>
+                </div>
+              )}
+
               {/* Interactive Figures */}
               {currentSection.hasInteractiveFigure === 'figure1_map' && (
                 <div className="interactive-figure-wrapper">
@@ -226,7 +273,55 @@ export const ChapterLayout: React.FC<ChapterLayoutProps> = ({
                 </div>
               )}
 
-              {/* Data Table */}
+              {/* Document Figure (Single) */}
+              {currentSection.figure && (
+                <div className="section-document-figure-card">
+                  <div className="figure-card-header">
+                    <span className="figure-card-tag">{currentSection.figure.title}</span>
+                    {currentSection.figure.source && (
+                      <span className="figure-card-source">{currentSection.figure.source}</span>
+                    )}
+                  </div>
+                  <div className="figure-img-container">
+                    <img 
+                      src={currentSection.figure.src} 
+                      alt={currentSection.figure.title} 
+                      className="figure-rendered-img"
+                      loading="lazy"
+                    />
+                  </div>
+                  {currentSection.figure.caption && (
+                    <div className="figure-card-caption">
+                      {currentSection.figure.caption}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Multiple Document Figures */}
+              {currentSection.figures && currentSection.figures.map((fig, fIdx) => (
+                <div key={fIdx} className="section-document-figure-card">
+                  <div className="figure-card-header">
+                    <span className="figure-card-tag">{fig.title}</span>
+                    {fig.source && <span className="figure-card-source">{fig.source}</span>}
+                  </div>
+                  <div className="figure-img-container">
+                    <img 
+                      src={fig.src} 
+                      alt={fig.title} 
+                      className="figure-rendered-img"
+                      loading="lazy"
+                    />
+                  </div>
+                  {fig.caption && (
+                    <div className="figure-card-caption">
+                      {fig.caption}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Data Table (Single) */}
               {currentSection.tableData && (
                 <div className="section-table-container">
                   <div className="table-header-block">
@@ -262,6 +357,43 @@ export const ChapterLayout: React.FC<ChapterLayoutProps> = ({
                   </div>
                 </div>
               )}
+
+              {/* Multiple Data Tables */}
+              {currentSection.tables && currentSection.tables.map((tbl, tIdx) => (
+                <div key={tIdx} className="section-table-container">
+                  <div className="table-header-block">
+                    <h4 className="table-title">{tbl.title}</h4>
+                    {tbl.source && (
+                      <span className="table-source-tag">{tbl.source}</span>
+                    )}
+                  </div>
+                  <div className="table-responsive-scroll">
+                    <table className="plan-custom-table">
+                      <thead>
+                        <tr>
+                          {tbl.headers.map((h, hIdx) => (
+                            <th key={hIdx}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tbl.rows.map((row, rIdx) => {
+                          const isTotalRow = String(row[0]).toLowerCase().includes('total');
+                          return (
+                            <tr key={rIdx} className={isTotalRow ? 'table-row-total' : ''}>
+                              {row.map((cell, cIdx) => (
+                                <td key={cIdx} className={cIdx === 0 ? 'cell-primary' : 'cell-metric'}>
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
 
               {/* Section Pager / Navigation */}
               <footer className="article-pager-nav">

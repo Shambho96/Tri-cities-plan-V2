@@ -92,14 +92,7 @@ export function App() {
           />
         )}
 
-        {(activeTab === 'today' || activeTab === 'tomorrow' || activeTab === 'funding' || activeTab === 'appendices') && (
-          <ComingSoonView
-            tabId={activeTab}
-            onNavigateTab={handleNavigateTab}
-          />
-        )}
-
-        {(activeTab === 'introduction' || activeTab === 'trends') && currentChapterData && (
+        {activeTab !== 'report' && currentChapterData ? (
           <ChapterLayout
             chapter={currentChapterData}
             activeSectionId={activeSectionId}
@@ -108,7 +101,12 @@ export function App() {
             prevTab={prevTab}
             nextTab={nextTab}
           />
-        )}
+        ) : activeTab !== 'report' ? (
+          <ComingSoonView
+            tabId={activeTab}
+            onNavigateTab={handleNavigateTab}
+          />
+        ) : null}
       </div>
 
       {/* Goal Deep-dive modal */}
